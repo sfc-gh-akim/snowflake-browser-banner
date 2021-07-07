@@ -1,3 +1,6 @@
+//  This is the javascript for the button that appears in the browser
+//  This creates the colored buttons and saves the results
+
 const ColorPalette = [
     "#29B5E8",
     "#11567F",
@@ -12,6 +15,8 @@ const ColorPalette = [
     "#000000",
     "#FFFFFF"
 ]
+
+//  Button Sections
 const sections = ['textcolor', 'bgcolor']
 
 var query = { active: true, currentWindow: true };
@@ -32,123 +37,72 @@ function callback(tabs) {
     }
 
     if (accountId !== undefined) {
-
+        //  Iterate through button sections
         for (let i = 0; i < sections.length; i++) {
             let _section = sections[i]
 
-            console.log(`Getting ${accountId}.${_section}`)
+            //  Get saved settings
             chrome.storage.sync.get(`${accountId}.${_section}`, (data) => {
 
+                //  Iterate through colors
                 for (let i = 0; i < ColorPalette.length; i++) {
                     let color = ColorPalette[i]
 
+                    //  Create buttons
                     let button = document.createElement("button")
                     button.value = color;
                     button.style.border = "1px solid grey";
                     button.style.backgroundColor = color;
-                    button.addEventListener("click", (e) => {
-                        let tmp = {}
-                        tmp[`${accountId}.${_section}`] = color
-                        chrome.storage.sync.set(tmp)
-                        console.log(tmp)
 
-                        resetClasses(_section)
-                        button.className = "current"
-                    })
-
-                    console.log(data)
+                    //  Set class to "current if matches saved color"                    
                     if (data !== undefined) {
-                        let _activeColor = data[`${accountId}.${_section}`]
-
-                        console.log(_activeColor)
-                        console.log(color)
-                        if (_activeColor === color) {
+                        if (data[`${accountId}.${_section}`] === color) {
                             button.className = "current"
                         }
                     }
 
+                    //  Click event to save color on click
+                    button.addEventListener("click", (e) => {
+                        chrome.storage.sync.set({ [`${accountId}.${_section}`]: color })
+
+                        //  Remove "current" from class
+                        resetClasses(_section)
+
+                        //  Add "current to clicked button"
+                        button.className = "current"
+                    })
+
+                    //  Add the button to the section
                     document.querySelectorAll(`td.${_section}`)[0].appendChild(button)
                 }
             })
-
-            // let button1 = document.createElement("button")
-            // button1.value = color;
-            // button1.style.border = "1px solid grey";
-            // button1.style.backgroundColor = color;
-            // button1.addEventListener("click", (e) => {
-            //     let tmp = {}
-            //     tmp[`${accountId}.${_section}`] = color
-            //     chrome.storage.sync.set(tmp)
-
-            //     resetClasses(_section)
-            //     button1.className = "current"
-            // })
-            // document.querySelectorAll(`td.textcolor`)[0].appendChild(button1)
         }
 
-
+        //  Display the AccountID
         document.getElementById("accountId").innerHTML = accountId
 
-        // for (let i = 0; i < sections.length; i++) {
-        //     let _section = sections[i]
+        //  Set the Text Input
+        chrome.storage.sync.get(`${accountId}.text`, (data) => {
+            if (data !== undefined && data[`${accountId}.text`] !== undefined) {
+                document.getElementById("text").value = data[`${accountId}.text`]
+            }
+        })
 
-        //     resetClasses(_section)
-
-
-        // });
+        //  Show the configurations if on Snowflake page
+        document.getElementById("SnowflakePage").style.display = "block"
+        document.getElementById("NotSnowflakePage").style.display = "none"
     }
-    // chrome.storage.sync.get(`${accountId}.textcolor`, ({ data }) => {
-    //     let _buttons = document.querySelectorAll('td.textcolor button')
-    //     let _activeColor = data[`${accountId}.textcolor`]
-
-    //     resetClasses("textcolor")
-    //     if (_activeColor !== undefined) {
-    //         for (let i = 0; i < _buttons.length; i++) {
-    //             if (_buttons[i].value === data[`${accountId}.textcolor`]) {
-    //                 _buttons[i].className = "current"
-    //             }
-    //         }
-    //     }
-    // });
-
-    //  Set the Text Input
-    chrome.storage.sync.get(`${accountId}.text`, (data) => {
-        if (data !== undefined && data[`${accountId}.text`] !== undefined) {
-            document.getElementById("text").value = data[`${accountId}.text`]
-        }
-    })
-
-    //  Show the configurations if on Snowflake page
-    document.getElementById("SnowflakePage").style.display = "block"
-    document.getElementById("NotSnowflakePage").style.display = "none"
-    // }
 }
 
+//  Query the Chrome tabs for active tab
 chrome.tabs.query(query, callback);
 
-
+//  Bind onKeyUp for text field and save
 document.getElementById("text").onkeyup = (err) => {
-    let tmp = {}
-    tmp[`${accountId}.text`] = document.getElementById("text").value
-    chrome.storage.sync.set(tmp);
+    chrome.storage.sync.set({ [`${accountId}.text`]: document.getElementById("text").value });
 }
 
-
-// for (let i = 0; i < sections.length; i++) {
-//     let _section = sections[i]
-//     let _buttons = document.querySelectorAll(`td.${_section} button`)
-//     for (let i = 0; i < _buttons.length; i++) {
-//         _buttons[i].addEventListener("click", (e) => {
-//             let tmp = {}
-//             tmp[`${accountId}.${_section}`] = _buttons[i].value
-//             chrome.storage.sync.set(tmp)
-
-//             resetClasses(_section)
-//             _buttons[i].className = "current"
-//         })
-//     }
-// }
-
+//  Empty class attribute for buttons
 function resetClasses(cls) {
     let _buttons = document.querySelectorAll(`td.${cls} button`)
     for (let i = 0; i < _buttons.length; i++) {
@@ -156,6 +110,7 @@ function resetClasses(cls) {
     }
 }
 
+//  Bind to Reset Button
 document.getElementById("Reset").addEventListener("click", () => {
     chrome.storage.sync.set({ [`${accountId}.text`]: "" });
     document.getElementById("text").value = "";

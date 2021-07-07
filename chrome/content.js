@@ -1,10 +1,4 @@
-const mapping = {
-    seprod2: {
-        backgroundColor: "#00F",
-        color: "#FFF",
-        text: "SEPROD2"
-    }
-}
+//  This javascript executes on any page that matches the content_scripts.matches
 
 var banner = document.createElement('div')
 banner.className = "_snowflake_banner";
@@ -15,9 +9,12 @@ banner.style.zIndex = 99999
 banner.style.textAlign = "center"
 banner.style.padding = "5px"
 
+//  Hide the banner when mouseover
 banner.onmouseover = (e) => {
     e.target.style.display = "none"
     var _e = e
+
+    //  Show banner again after 10 seconds
     setTimeout((e) => {
         _e.target.style.display = "block"
     }, 10000)
@@ -36,25 +33,28 @@ if (url.includes("https://app.snowflake.com/")) {
 }
 
 if (accountId !== undefined) {
+    //  Set the Text Color
     chrome.storage.sync.get(`${accountId}.textcolor`, (data) => {
-        console.log(data)
         if (data !== undefined && data[`${accountId}.textcolor`] !== undefined) {
             banner.style.color = data[`${accountId}.textcolor`]
         }
-        chrome.storage.sync.get(`${accountId}.bgcolor`, (data) => {
-            console.log(data)
-            if (data !== undefined && data[`${accountId}.bgcolor`] !== undefined) {
-                banner.style.backgroundColor = data[`${accountId}.bgcolor`]
-            }
-        })
-        chrome.storage.sync.get(`${accountId}.text`, (data) => {
-            console.log(data)
-            if (data !== undefined && data[`${accountId}.text`] !== undefined) {
-                banner.innerHTML = data[`${accountId}.text`]
+    })
 
-                let body = document.getElementsByTagName("body")
-                body[0].prepend(banner)
-            }
-        })
+    //  Set the Banner's Background Color
+    chrome.storage.sync.get(`${accountId}.bgcolor`, (data) => {
+        if (data !== undefined && data[`${accountId}.bgcolor`] !== undefined) {
+            banner.style.backgroundColor = data[`${accountId}.bgcolor`]
+        }
+    })
+
+    //  Set the Banner's Text
+    chrome.storage.sync.get(`${accountId}.text`, (data) => {
+        if (data !== undefined && data[`${accountId}.text`] !== undefined) {
+            banner.innerHTML = data[`${accountId}.text`]
+
+            //  Only append to body if text is available
+            let body = document.getElementsByTagName("body")
+            body[0].prepend(banner)
+        }
     })
 }

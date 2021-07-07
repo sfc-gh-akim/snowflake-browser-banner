@@ -1,7 +1,7 @@
 {
     "name": "Snowflake Browser Banner",
     "description": "Add banners to Snowflake to quickly differentiate between environments",
-    "version": "0.1",
+    "version": "0.2",
     "manifest_version": 3,
     "permissions": ["storage", "activeTab", "scripting"],
     "content_scripts":[
