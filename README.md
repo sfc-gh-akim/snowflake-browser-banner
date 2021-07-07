@@ -16,3 +16,7 @@ Also works in the new Preview App
 ![Compatible with Preview App](Screenshots/PreviewApp.png)
 
 View the README.md file in each folder corresponding to the browser for instructions on how to install
+
+---
+
+**NOTE** This is not an official Snowflake tool. Use at your own discretion.
