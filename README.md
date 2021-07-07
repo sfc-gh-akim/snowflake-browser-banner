@@ -1,4 +1,4 @@
-# Snowflake Browser Banner
+# Snowflake Banner - Browser Extension
 Add banners to Snowflake to quickly differentiate between Snowflake environments.
 ![Snowflake Banner](Screenshots/SnowflakeBanner.png)
 
