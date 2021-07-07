@@ -1,0 +1,33 @@
+{
+    "name": "Snowflake Browser Banner",
+    "description": "Add banners to Snowflake to quickly differentiate between environments",
+    "version": "0.1",
+    "manifest_version": 3,
+    "permissions": ["storage", "activeTab", "scripting"],
+    "content_scripts":[
+        {
+            "matches":[
+                "https://*.snowflakecomputing.com/*",
+                "https://app.snowflake.com/*"
+            ],
+            "js":[
+                "content.js"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon":{
+            "16": "/images/Snowflake16.png",
+            "32": "/images/Snowflake32.png",
+            "48": "/images/Snowflake48.png",
+            "128": "/images/Snowflake128.png"
+        }
+    },
+    "icons":{
+        "16": "/images/Snowflake16.png",
+        "32": "/images/Snowflake32.png",
+        "48": "/images/Snowflake48.png",
+        "128": "/images/Snowflake128.png"
+    }
+  }
