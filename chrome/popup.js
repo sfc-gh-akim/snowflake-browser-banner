@@ -120,3 +120,71 @@ document.getElementById("Reset").addEventListener("click", () => {
         resetClasses(sections[i])
     }
 })
+
+function buildTable() {
+    var table = document.getElementById("NotSnowflakePage")
+    table.innerHTML = "";
+    chrome.storage.sync.get(null, (items) => {
+        // alert(JSON.stringify(items))
+        console.log(items)
+        let itemKeys = Object.keys(items);
+        for (let i = 0; i < itemKeys.length; i++) {
+            let key = itemKeys[i]
+            console.log(key)
+            if (key.substr(-5) === '.text') {
+                let accountId = key.substr(0, key.length - 5)
+                let td1 = document.createElement("td")
+                td1.innerHTML = accountId
+                td1.onclick = () => {
+                    chrome.tabs.create({
+                        url: `https://${accountId}.snowflakecomputing.com`
+                    })
+                }
+
+                let td2 = document.createElement("td")
+                td2.innerHTML = items[`${accountId}.text`] === undefined ? "" : items[`${accountId}.text`]
+                td2.onclick = () => {
+                    chrome.tabs.create({
+                        url: `https://${accountId}.snowflakecomputing.com`
+                    })
+                }
+
+                let td3 = document.createElement("td")
+                let button = document.createElement("button")
+                button.value = accountId
+                button.innerHTML = "X"
+                button.onclick = () => {
+                    try {
+                        chrome.storage.sync.remove(`${accountId}.text`);
+                    } catch (e) {
+
+                    }
+                    try {
+                        chrome.storage.sync.remove(`${accountId}.textcolor`);
+                    } catch (e) {
+
+                    }
+                    try {
+                        chrome.storage.sync.remove(`${accountId}.bgcolor`);
+                    } catch (e) {
+
+                    }
+                    buildTable()
+                }
+                td3.appendChild(button)
+
+                let tr = document.createElement("tr")
+
+                tr.style.backgroundColor = items[`${accountId}.bgcolor`] === undefined ? "#fff" : items[`${accountId}.bgcolor`]
+                tr.style.color = items[`${accountId}.textcolor`] === undefined ? "#000" : items[`${accountId}.textcolor`]
+                tr.appendChild(td1)
+                tr.appendChild(td2)
+                tr.appendChild(td3)
+
+                table.appendChild(tr);
+            }
+        }
+    })
+}
+
+buildTable()

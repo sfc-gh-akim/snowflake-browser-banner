@@ -16,3 +16,18 @@ td.heading {
   font-weight: bold;
   text-align: right;
 }
+
+table#NotSnowflakePage {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+table#NotSnowflakePage td {
+  padding: 3px;
+  white-space: nowrap;
+}
+table#NotSnowflakePage tr:hover {
+  cursor: pointer;
+}
+table#NotSnowflakePage tr:hover td {
+  font-weight: bold;
+}

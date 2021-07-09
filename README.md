@@ -2,6 +2,12 @@
 Add banners to Snowflake to quickly differentiate between Snowflake environments.
 ![Snowflake Banner](Screenshots/SnowflakeBanner.png)
 
+
+## Quick Access to Saved Snowflake Environments
+Click on the button to quickly access saved Snowflake Environments
+
+![Quick Access](Screenshots/QuickAccess.png)
+
 ## Hide Banner
 Mousing over the banner will make it hide and automatically reappear after 10 seconds.
 
