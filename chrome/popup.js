@@ -44,37 +44,42 @@ function callback(tabs) {
             //  Get saved settings
             chrome.storage.sync.get(`${accountId}.${_section}`, (data) => {
 
-                //  Iterate through colors
-                for (let i = 0; i < ColorPalette.length; i++) {
-                    let color = ColorPalette[i]
-
-                    //  Create buttons
-                    let button = document.createElement("button")
-                    button.value = color;
-                    button.style.border = "1px solid grey";
-                    button.style.backgroundColor = color;
-
-                    //  Set class to "current if matches saved color"                    
-                    if (data !== undefined) {
-                        if (data[`${accountId}.${_section}`] === color) {
-                            button.className = "current"
-                        }
-                    }
-
-                    //  Click event to save color on click
-                    button.addEventListener("click", (e) => {
-                        chrome.storage.sync.set({ [`${accountId}.${_section}`]: color })
-
-                        //  Remove "current" from class
-                        resetClasses(_section)
-
-                        //  Add "current to clicked button"
-                        button.className = "current"
-                    })
-
-                    //  Add the button to the section
-                    document.querySelectorAll(`td.${_section}`)[0].appendChild(button)
+                if (data[`${accountId}.${_section}`] !== undefined) {
+                    document.getElementById(_section).value = data[`${accountId}.${_section}`]
                 }
+
+
+                //  Iterate through colors
+                // for (let i = 0; i < ColorPalette.length; i++) {
+                //     let color = ColorPalette[i]
+
+                //     //  Create buttons
+                //     let button = document.createElement("button")
+                //     button.value = color;
+                //     button.style.border = "1px solid grey";
+                //     button.style.backgroundColor = color;
+
+                //     //  Set class to "current if matches saved color"                    
+                //     if (data !== undefined) {
+                //         if (data[`${accountId}.${_section}`] === color) {
+                //             button.className = "current"
+                //         }
+                //     }
+
+                //     //  Click event to save color on click
+                //     button.addEventListener("click", (e) => {
+                //         chrome.storage.sync.set({ [`${accountId}.${_section}`]: color })
+
+                //         //  Remove "current" from class
+                //         resetClasses(_section)
+
+                //         //  Add "current to clicked button"
+                //         button.className = "current"
+                //     })
+
+                //     //  Add the button to the section
+                //     document.querySelectorAll(`td.${_section}`)[0].appendChild(button)
+                // }
             })
         }
 
@@ -126,11 +131,11 @@ function buildTable() {
     table.innerHTML = "";
     chrome.storage.sync.get(null, (items) => {
         // alert(JSON.stringify(items))
-        console.log(items)
+        // console.log(items)
         let itemKeys = Object.keys(items);
         for (let i = 0; i < itemKeys.length; i++) {
             let key = itemKeys[i]
-            console.log(key)
+            // console.log(key)
             if (key.substr(-5) === '.text') {
                 let accountId = key.substr(0, key.length - 5)
                 let td1 = document.createElement("td")
@@ -185,6 +190,9 @@ function buildTable() {
             }
         }
     })
+
+    //  Ideally set footer version based on Manifest - TODO
+    console.log(browser.runtime.getManifest().version)
 }
 
 buildTable()
