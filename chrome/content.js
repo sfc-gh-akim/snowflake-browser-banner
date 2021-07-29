@@ -137,12 +137,28 @@ function BuildBanner() {
 
                         //  Sets the onclick to hide for option's duration
                         action.onclick = (e) => {
-                            document.getElementsByClassName('_snowflake_banner')[0].style.display = "none"
-                            document.getElementsByTagName("head")[0].appendChild(style2)
+                            document.querySelector('div._snowflake_banner').style.display = "none"
+
+                            try {
+                                if (document.querySelector('style#_snowflake_banner_override') === null) {
+                                    document.getElementsByTagName("head")[0].appendChild(style2)
+                                }
+                                document.querySelector('style#_snowflake_banner_override').styleSheet.cssText = styles2;
+                            } catch (e) {
+
+                            }
 
                             setTimeout((e) => {
-                                document.getElementsByClassName('_snowflake_banner')[0].style.display = "block"
-                                document.getElementById('_snowflake_banner_override').remove()
+                                document.querySelector('div._snowflake_banner').style.display = "block"
+                                try {
+                                    document.querySelector('style#_snowflake_banner_override').styleSheet.cssText = "";
+                                    // document.querySelector('style#_snowflake_banner_override').remove()
+                                    // if (document.getElementById('_snowflake_banner_override') !== null) {
+                                    //     document.getElementById('_snowflake_banner_override').remove()
+                                    // }
+                                } catch (e) {
+                                    console.log(e)
+                                }
                             }, hideOptions[i].duration)
                         }
 

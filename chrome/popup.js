@@ -192,7 +192,7 @@ function buildTable() {
     })
 
     //  Ideally set footer version based on Manifest - TODO
-    console.log(browser.runtime.getManifest().version)
+    // console.log(browser.runtime.getManifest().version)
 }
 
 buildTable()
