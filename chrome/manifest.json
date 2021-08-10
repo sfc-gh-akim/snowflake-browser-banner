@@ -1,7 +1,7 @@
 {
     "name": "Snowflake Banner - Browser Extension",
     "description": "Browser extension to add banners to Snowflake to quickly differentiate between environments",
-    "version": "0.6",
+    "version": "0.7",
     "manifest_version": 3,
     "permissions": ["storage", "activeTab", "scripting"],
     "content_scripts":[

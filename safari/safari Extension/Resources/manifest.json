@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+    "default_locale": "en",
+
+    "name": "Snowflake Banner - Browser Extension",
+    "description": "Browser extension to add banners to Snowflake to quickly differentiate between environments",
+    "version": "0.7",
+
+    "icons": {
+        "16": "images/Snowflake16.png",
+        "32": "images/Snowflake32.png",
+        "48": "images/Snowflake48.png",
+        "128": "images/Snowflake128.png"
+    },
+
+    "background": {
+        "scripts": [ "background.js" ]
+    },
+
+    "content_scripts": [{
+        "js": [ "content.js" ],
+        "matches": [
+            "https://*.snowflakecomputing.com/*",
+            "https://app.snowflake.com/*"
+        ]
+    }],
+
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/Snowflake16.png",
+            "32": "images/Snowflake32.png",
+            "48": "images/Snowflake48.png",
+            "128": "images/Snowflake128.png"
+        }
+    },
+
+    "permissions": [ "storage", "activeTab", "scripting"]
+}

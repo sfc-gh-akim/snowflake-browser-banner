@@ -47,10 +47,11 @@ function callback(tabs) {
                 if (data[`${accountId}.${_section}`] !== undefined) {
                     document.getElementById(_section).value = data[`${accountId}.${_section}`]
                 }
-
+                
                 document.getElementById(_section).addEventListener("change", (e) => {
                     chrome.storage.sync.set({ [`${accountId}.${_section}`]: e.target.value })
                 })
+
 
                 //  Iterate through colors
                 // for (let i = 0; i < ColorPalette.length; i++) {
@@ -62,7 +63,7 @@ function callback(tabs) {
                 //     button.style.border = "1px solid grey";
                 //     button.style.backgroundColor = color;
 
-                //     //  Set class to "current if matches saved color"                    
+                //     //  Set class to "current if matches saved color"
                 //     if (data !== undefined) {
                 //         if (data[`${accountId}.${_section}`] === color) {
                 //             button.className = "current"
